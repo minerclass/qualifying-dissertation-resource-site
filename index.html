@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tertiary Algorithmicity | Qualifying Paper and Dissertation Resource</title>
+  <meta name="description" content="A GitHub Pages support site for a qualifying paper and dissertation project on tertiary algorithmicity, AI, composition, and media ecology.">
+  <style>
+    :root {
+      --paper: #fbfaf6;
+      --paper-2: #f1efe7;
+      --ink: #25231f;
+      --muted: #686259;
+      --faint: #918a7d;
+      --rule: #d8d0c2;
+      --rule-dark: #5d554a;
+      --rust: #a6532f;
+      --moss: #546b52;
+      --blue: #395f78;
+      --plum: #6d5365;
+      --gold: #b88435;
+      --white: #ffffff;
+      --shadow: 0 18px 50px rgba(42, 36, 29, 0.12);
+      --serif: Georgia, "Times New Roman", serif;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        linear-gradient(90deg, rgba(37, 35, 31, 0.035) 1px, transparent 1px) 0 0 / 72px 72px,
+        linear-gradient(0deg, rgba(37, 35, 31, 0.03) 1px, transparent 1px) 0 0 / 72px 72px,
+        var(--paper);
+      font-family: var(--sans);
+      line-height: 1.5;
+    }
+
+    a { color: inherit; }
+    button, input, select { font: inherit; }
+    .wrap { width: min(1180px, calc(100% - 36px)); margin: 0 auto; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid rgba(37, 35, 31, 0.18);
+      background: rgba(251, 250, 246, 0.92);
+      backdrop-filter: blur(14px);
+    }
+    .nav {
+      min-height: 62px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      min-width: 220px;
+    }
+    .mark {
+      width: 30px;
+      height: 30px;
+      border: 1px solid var(--ink);
+      display: grid;
+      place-items: center;
+      background: var(--paper);
+    }
+    .mark svg { width: 22px; height: 22px; }
+    .brand span {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .links { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
+    .links a {
+      text-decoration: none;
+      padding: 7px 10px;
+      color: var(--muted);
+      font-size: 13px;
+      border: 1px solid transparent;
+    }
+    .links a:hover { border-color: var(--rule); color: var(--ink); background: var(--white); }
+
+    .hero {
+      position: relative;
+      min-height: 680px;
+      display: grid;
+      align-items: center;
+      padding: 72px 0 44px;
+      overflow: hidden;
+      border-bottom: 1px solid var(--ink);
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.95fr);
+      gap: 56px;
+      align-items: center;
+    }
+    .eyebrow {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--rust);
+      margin-bottom: 16px;
+    }
+    h1, h2, h3, h4 { margin: 0; line-height: 1.05; font-weight: 400; }
+    h1 {
+      font-family: var(--serif);
+      font-size: clamp(50px, 8vw, 104px);
+      max-width: 8.4ch;
+      letter-spacing: 0;
+    }
+    .hero-copy {
+      max-width: 64ch;
+      margin: 24px 0 0;
+      font-size: clamp(18px, 2vw, 22px);
+      color: var(--muted);
+    }
+    .hero-actions {
+      margin-top: 34px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      border: 1px solid var(--ink);
+      background: var(--ink);
+      color: var(--paper);
+      text-decoration: none;
+      padding: 12px 16px;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 42px;
+    }
+    .btn.secondary { background: transparent; color: var(--ink); }
+    .btn:hover { transform: translateY(-1px); box-shadow: var(--shadow); }
+    .hero-panel {
+      position: relative;
+      min-height: 520px;
+      border: 1px solid var(--ink);
+      background: var(--paper-2);
+      box-shadow: var(--shadow);
+      padding: 26px;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      overflow: hidden;
+    }
+    .map-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      border-bottom: 1px solid var(--rule-dark);
+      padding-bottom: 18px;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .map-title b { color: var(--ink); font-weight: 500; }
+    .orbit {
+      position: relative;
+      min-height: 350px;
+      display: grid;
+      place-items: center;
+    }
+    .orbit svg { width: min(100%, 410px); height: auto; display: block; overflow: visible; }
+    .node-label {
+      position: absolute;
+      width: 150px;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .node-label strong {
+      display: block;
+      color: var(--ink);
+      font-family: var(--serif);
+      font-size: 20px;
+      letter-spacing: 0;
+      text-transform: none;
+      margin-bottom: 2px;
+    }
+    .node-label.one { left: 10px; top: 50px; }
+    .node-label.two { right: 0; top: 110px; text-align: right; }
+    .node-label.three { left: 38px; bottom: 44px; }
+    .node-label.four { right: 22px; bottom: 20px; text-align: right; }
+    .status-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid var(--rule-dark);
+    }
+    .status-strip div {
+      padding: 14px 12px 0;
+      border-right: 1px solid var(--rule);
+    }
+    .status-strip div:last-child { border-right: 0; }
+    .status-strip span {
+      display: block;
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--faint);
+      margin-bottom: 5px;
+    }
+    .status-strip b { font-size: 14px; font-weight: 500; }
+
+    section { padding: 86px 0; border-bottom: 1px solid var(--rule); }
+    .section-head {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 44px;
+      align-items: end;
+      margin-bottom: 34px;
+    }
+    .section-head h2 {
+      font-family: var(--serif);
+      font-size: clamp(36px, 5vw, 64px);
+      letter-spacing: 0;
+    }
+    .section-head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 17px;
+      max-width: 64ch;
+    }
+
+    .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border: 1px solid var(--ink);
+      background: var(--ink);
+      gap: 1px;
+    }
+    .quick-card {
+      background: var(--paper);
+      padding: 24px;
+      min-height: 260px;
+      display: flex;
+      flex-direction: column;
+    }
+    .quick-card .num {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+    .quick-card h3 {
+      margin-top: 22px;
+      font-family: var(--serif);
+      font-size: 28px;
+    }
+    .quick-card p {
+      color: var(--muted);
+      font-size: 14px;
+      margin: 14px 0 18px;
+    }
+    .quick-card a {
+      margin-top: auto;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--rust);
+      text-decoration: none;
+    }
+
+    .bridge {
+      display: grid;
+      grid-template-columns: 1fr 80px 1fr;
+      gap: 0;
+      border: 1px solid var(--ink);
+      background: var(--paper);
+    }
+    .bridge-col { padding: 30px; }
+    .bridge-col h3 {
+      font-family: var(--serif);
+      font-size: 34px;
+      margin-bottom: 18px;
+    }
+    .bridge-col ul { margin: 0; padding-left: 20px; color: var(--muted); }
+    .bridge-col li { margin: 10px 0; }
+    .bridge-arrow {
+      border-left: 1px solid var(--ink);
+      border-right: 1px solid var(--ink);
+      display: grid;
+      place-items: center;
+      background: var(--paper-2);
+      color: var(--rust);
+      font-family: var(--serif);
+      font-size: 44px;
+    }
+    .claim-box {
+      margin-top: 28px;
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      border: 1px solid var(--ink);
+    }
+    .claim-box h3 {
+      padding: 28px;
+      background: var(--ink);
+      color: var(--paper);
+      font-family: var(--serif);
+      font-size: 30px;
+    }
+    .claim-box p {
+      margin: 0;
+      padding: 28px;
+      font-size: 18px;
+      color: var(--muted);
+    }
+
+    .chapters {
+      display: grid;
+      grid-template-columns: 310px 1fr;
+      border: 1px solid var(--ink);
+      min-height: 560px;
+      background: var(--paper);
+    }
+    .chapter-tabs {
+      border-right: 1px solid var(--ink);
+      background: var(--paper-2);
+      display: flex;
+      flex-direction: column;
+    }
+    .chapter-tabs button {
+      all: unset;
+      cursor: pointer;
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--rule);
+      display: grid;
+      gap: 4px;
+    }
+    .chapter-tabs button:hover { background: var(--white); }
+    .chapter-tabs button.active { background: var(--ink); color: var(--paper); }
+    .chapter-tabs span {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+    .chapter-tabs button.active span { color: #cabfae; }
+    .chapter-tabs b { font-family: var(--serif); font-size: 24px; font-weight: 400; }
+    .chapter-view { padding: 34px; }
+    .chapter-view h3 { font-family: var(--serif); font-size: clamp(32px, 5vw, 56px); max-width: 14ch; }
+    .chapter-view .purpose { margin: 16px 0 28px; color: var(--muted); font-size: 18px; max-width: 62ch; }
+    .chapter-meta {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--rule);
+      border: 1px solid var(--rule);
+      margin-bottom: 28px;
+    }
+    .chapter-meta div { background: var(--paper); padding: 16px; }
+    .chapter-meta span {
+      display: block;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--faint);
+      margin-bottom: 7px;
+    }
+    .chapter-meta b { font-weight: 500; }
+    .moves {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+    }
+    .moves h4 {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      color: var(--rust);
+    }
+    .moves ul { margin: 0; padding-left: 20px; color: var(--muted); }
+    .moves li { margin: 8px 0; }
+
+    .toolbox {
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      gap: 28px;
+      align-items: start;
+    }
+    .filters {
+      border: 1px solid var(--ink);
+      background: var(--paper-2);
+      padding: 22px;
+      position: sticky;
+      top: 86px;
+    }
+    .filters h3 { font-family: var(--serif); font-size: 30px; margin-bottom: 18px; }
+    .control { margin-top: 18px; }
+    .control label {
+      display: block;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .control input, .control select {
+      width: 100%;
+      border: 1px solid var(--rule-dark);
+      background: var(--paper);
+      color: var(--ink);
+      padding: 11px 12px;
+      outline: none;
+    }
+    .control input:focus, .control select:focus { border-color: var(--rust); box-shadow: 0 0 0 3px rgba(166, 83, 47, 0.14); }
+    .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .pill {
+      border: 1px solid var(--rule-dark);
+      background: var(--paper);
+      color: var(--muted);
+      padding: 7px 10px;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    .pill.active { background: var(--ink); color: var(--paper); }
+    .resource-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .resource {
+      border: 1px solid var(--rule-dark);
+      background: var(--paper);
+      padding: 20px;
+      min-height: 260px;
+      display: flex;
+      flex-direction: column;
+    }
+    .resource .tag {
+      width: fit-content;
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--paper);
+      background: var(--blue);
+      padding: 4px 7px;
+      margin-bottom: 16px;
+    }
+    .resource[data-stage="qualifying"] .tag { background: var(--rust); }
+    .resource[data-stage="dissertation"] .tag { background: var(--moss); }
+    .resource[data-stage="both"] .tag { background: var(--plum); }
+    .resource h3 { font-family: var(--serif); font-size: 25px; }
+    .resource p { color: var(--muted); font-size: 14px; margin: 12px 0; }
+    .resource .use {
+      margin-top: auto;
+      padding-top: 14px;
+      border-top: 1px solid var(--rule);
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .resource .use b {
+      display: block;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+    .empty {
+      display: none;
+      border: 1px dashed var(--rule-dark);
+      padding: 30px;
+      color: var(--muted);
+      background: var(--paper-2);
+    }
+
+    .routine-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    .routine {
+      border: 1px solid var(--rule-dark);
+      background: var(--paper);
+      padding: 24px;
+      min-height: 320px;
+    }
+    .routine h3 { font-family: var(--serif); font-size: 30px; margin-bottom: 12px; }
+    .routine ol { margin: 0; padding-left: 20px; color: var(--muted); }
+    .routine li { margin: 10px 0; }
+
+    .prompt-lab {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      border: 1px solid var(--ink);
+      background: var(--paper);
+    }
+    .prompt-controls {
+      border-right: 1px solid var(--ink);
+      padding: 28px;
+      background: var(--paper-2);
+    }
+    .prompt-controls h3 { font-family: var(--serif); font-size: 34px; margin-bottom: 16px; }
+    .prompt-controls p { color: var(--muted); margin-bottom: 22px; }
+    .prompt-output { padding: 28px; }
+    .prompt-output pre {
+      margin: 0;
+      white-space: pre-wrap;
+      font-family: var(--sans);
+      line-height: 1.62;
+      color: var(--ink);
+      background: var(--white);
+      border: 1px solid var(--rule);
+      padding: 22px;
+      min-height: 310px;
+    }
+
+    .decision-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      border: 1px solid var(--ink);
+      background: var(--ink);
+    }
+    .decision {
+      background: var(--paper);
+      padding: 26px;
+      min-height: 260px;
+    }
+    .decision span {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--rust);
+    }
+    .decision h3 { font-family: var(--serif); font-size: 28px; margin: 18px 0 12px; }
+    .decision p { color: var(--muted); margin: 0; }
+
+    footer {
+      padding: 42px 0;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .foot {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid, .section-head, .toolbox, .prompt-lab { grid-template-columns: 1fr; }
+      .hero { min-height: auto; }
+      .hero-panel { min-height: 460px; }
+      .quick-grid, .routine-grid, .decision-grid { grid-template-columns: repeat(2, 1fr); }
+      .chapters { grid-template-columns: 1fr; }
+      .chapter-tabs {
+        border-right: 0;
+        border-bottom: 1px solid var(--ink);
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .filters { position: static; }
+      .prompt-controls { border-right: 0; border-bottom: 1px solid var(--ink); }
+    }
+
+    @media (max-width: 720px) {
+      .wrap { width: min(100% - 24px, 1180px); }
+      .nav { align-items: flex-start; padding: 12px 0; flex-direction: column; }
+      .links { justify-content: flex-start; }
+      h1 { font-size: 48px; max-width: none; }
+      .hero { padding-top: 44px; }
+      .hero-panel { padding: 18px; min-height: 520px; }
+      .node-label { width: 130px; font-size: 9px; }
+      .node-label strong { font-size: 17px; }
+      section { padding: 62px 0; }
+      .quick-grid, .routine-grid, .decision-grid, .resource-list, .chapter-meta, .moves, .claim-box { grid-template-columns: 1fr; }
+      .bridge { grid-template-columns: 1fr; }
+      .bridge-arrow { min-height: 70px; border-left: 0; border-right: 0; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+      .chapter-tabs { grid-template-columns: 1fr; }
+      .status-strip { grid-template-columns: 1fr; }
+      .status-strip div { border-right: 0; border-bottom: 1px solid var(--rule); padding-bottom: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <nav class="wrap nav" aria-label="Primary navigation">
+      <a class="brand" href="#top" aria-label="Tertiary Algorithmicity home">
+        <span class="mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none">
+            <circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="1.4"></circle>
+            <circle cx="16" cy="16" r="6" stroke="currentColor" stroke-width="1.4"></circle>
+            <path d="M16 4v24M4 16h24" stroke="currentColor" stroke-width="1"></path>
+          </svg>
+        </span>
+        <span>Tertiary Algorithmicity</span>
+      </a>
+      <div class="links">
+        <a href="#bridge">Bridge</a>
+        <a href="#chapters">Chapters</a>
+        <a href="#resources">Resources</a>
+        <a href="#workflow">Workflow</a>
+        <a href="#prompts">Prompts</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <div class="eyebrow">Qualifying paper and dissertation support site</div>
+          <h1>Tertiary Algorithmicity</h1>
+          <p class="hero-copy">A working resource for turning the qualifying paper into a dissertation architecture: core claims, chapter movement, reading clusters, committee questions, and writing routines for a project on AI, composition, media ecology, and productive friction.</p>
+          <div class="hero-actions">
+            <a class="btn" href="#resources">Browse Resources</a>
+            <a class="btn secondary" href="#chapters">Open Chapter Map</a>
+          </div>
+        </div>
+
+        <aside class="hero-panel" aria-label="Conceptual map">
+          <div class="map-title">
+            <span><b>Research Map</b></span>
+            <span>paper to dissertation</span>
+          </div>
+          <div class="orbit">
+            <svg viewBox="0 0 420 360" role="img" aria-label="Conceptual orbit of friction, writing, algorithmic systems, and pedagogy">
+              <rect x="36" y="18" width="348" height="300" fill="#fbfaf6" stroke="#25231f"></rect>
+              <circle cx="210" cy="168" r="120" fill="none" stroke="#d8d0c2" stroke-width="2"></circle>
+              <circle cx="210" cy="168" r="78" fill="none" stroke="#5d554a" stroke-width="1.3" stroke-dasharray="7 7"></circle>
+              <circle cx="210" cy="168" r="34" fill="#a6532f" opacity="0.14" stroke="#a6532f" stroke-width="2"></circle>
+              <path d="M103 110 C158 76, 251 75, 317 115" stroke="#395f78" stroke-width="3" fill="none"></path>
+              <path d="M104 226 C155 270, 261 276, 319 220" stroke="#546b52" stroke-width="3" fill="none"></path>
+              <path d="M210 48 L210 288" stroke="#25231f" stroke-width="1"></path>
+              <path d="M90 168 L330 168" stroke="#25231f" stroke-width="1"></path>
+              <circle cx="210" cy="48" r="8" fill="#395f78"></circle>
+              <circle cx="330" cy="168" r="8" fill="#a6532f"></circle>
+              <circle cx="210" cy="288" r="8" fill="#546b52"></circle>
+              <circle cx="90" cy="168" r="8" fill="#6d5365"></circle>
+              <circle cx="210" cy="168" r="10" fill="#25231f"></circle>
+            </svg>
+            <div class="node-label one"><strong>Writing</strong> practice, memory, invention</div>
+            <div class="node-label two"><strong>AI</strong> automation, prediction, fluency</div>
+            <div class="node-label three"><strong>Friction</strong> delay, struggle, judgment</div>
+            <div class="node-label four"><strong>Pedagogy</strong> design, ethics, assessment</div>
+          </div>
+          <div class="status-strip">
+            <div><span>Current phase</span><b>Qualifying synthesis</b></div>
+            <div><span>Next phase</span><b>Chapter expansion</b></div>
+            <div><span>Output</span><b>Public support hub</b></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Use this first</div>
+            <h2>Four entry points.</h2>
+          </div>
+          <p>The original interactive overview had strong conceptual energy. This version keeps that center, but makes the site more useful as a live companion for drafting, committee preparation, and resource organization.</p>
+        </div>
+        <div class="quick-grid">
+          <article class="quick-card">
+            <span class="num">01 / Bridge</span>
+            <h3>Paper to dissertation</h3>
+            <p>Clarify what the qualifying paper proves and what the dissertation must still build.</p>
+            <a href="#bridge">Map the expansion</a>
+          </article>
+          <article class="quick-card">
+            <span class="num">02 / Architecture</span>
+            <h3>Chapter movement</h3>
+            <p>Track the project as a sequence of claims, cases, methods, and pedagogical implications.</p>
+            <a href="#chapters">View chapters</a>
+          </article>
+          <article class="quick-card">
+            <span class="num">03 / Library</span>
+            <h3>Resource clusters</h3>
+            <p>Filter theoretical, methodological, pedagogical, and writing resources by project stage.</p>
+            <a href="#resources">Open library</a>
+          </article>
+          <article class="quick-card">
+            <span class="num">04 / Practice</span>
+            <h3>Writing routines</h3>
+            <p>Use repeatable protocols for synthesis, chapter planning, revision, and committee response.</p>
+            <a href="#workflow">Start workflow</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="bridge">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Conceptual bridge</div>
+            <h2>What changes after the qualifying paper?</h2>
+          </div>
+          <p>The qualifying paper can establish the conceptual problem. The dissertation needs to show what the problem does across histories, interfaces, classrooms, assessment systems, and writing practices.</p>
+        </div>
+        <div class="bridge">
+          <div class="bridge-col">
+            <h3>Qualifying paper</h3>
+            <ul>
+              <li>Defines tertiary algorithmicity as a shift in writing's technical conditions.</li>
+              <li>Shows why fluency, speed, and output cannot be treated as simple gains.</li>
+              <li>Frames friction as a condition for judgment rather than a defect to remove.</li>
+              <li>Builds the theoretical vocabulary for AI-mediated composition.</li>
+            </ul>
+          </div>
+          <div class="bridge-arrow" aria-hidden="true">+</div>
+          <div class="bridge-col">
+            <h3>Dissertation</h3>
+            <ul>
+              <li>Extends the argument through cases, pedagogical designs, and institutional stakes.</li>
+              <li>Distinguishes useful automation from unproductive success.</li>
+              <li>Turns friction into a design principle for assignments and assessment.</li>
+              <li>Contributes a framework teachers can use without reducing writing to compliance.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="claim-box">
+          <h3>Working claim</h3>
+          <p>AI writing systems do not merely add new tools to old composing processes. They reorganize the temporal, cognitive, and social conditions under which writing becomes meaningful, assessable, and teachable.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="chapters">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Dissertation architecture</div>
+            <h2>Chapter map.</h2>
+          </div>
+          <p>Use the tabs to test whether each chapter has a distinct job. The sequence below is provisional by design: it keeps the dissertation from becoming one large theory chapter wearing several hats.</p>
+        </div>
+        <div class="chapters">
+          <div class="chapter-tabs" role="tablist" aria-label="Dissertation chapters">
+            <button class="active" data-chapter="0" role="tab" aria-selected="true"><span>Chapter 1</span><b>Problem</b></button>
+            <button data-chapter="1" role="tab" aria-selected="false"><span>Chapter 2</span><b>Genealogy</b></button>
+            <button data-chapter="2" role="tab" aria-selected="false"><span>Chapter 3</span><b>Friction</b></button>
+            <button data-chapter="3" role="tab" aria-selected="false"><span>Chapter 4</span><b>Pedagogy</b></button>
+            <button data-chapter="4" role="tab" aria-selected="false"><span>Chapter 5</span><b>Future</b></button>
+          </div>
+          <div class="chapter-view" id="chapterView" tabindex="0"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="resources">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Resource library</div>
+            <h2>Find the right material for the current task.</h2>
+          </div>
+          <p>This is a lightweight research dashboard. Search by keyword, filter by project stage, or jump through clusters when you need a specific kind of support.</p>
+        </div>
+        <div class="toolbox">
+          <aside class="filters">
+            <h3>Library controls</h3>
+            <div class="control">
+              <label for="search">Search resources</label>
+              <input id="search" type="search" placeholder="Try friction, assessment, Stiegler, methods">
+            </div>
+            <div class="control">
+              <label for="stage">Project stage</label>
+              <select id="stage">
+                <option value="all">All stages</option>
+                <option value="qualifying">Qualifying paper</option>
+                <option value="dissertation">Dissertation</option>
+                <option value="both">Both</option>
+              </select>
+            </div>
+            <div class="control">
+              <label>Cluster</label>
+              <div class="pill-row" id="clusterPills"></div>
+            </div>
+          </aside>
+          <div>
+            <div class="resource-list" id="resourceList"></div>
+            <div class="empty" id="emptyState">No resources match that combination yet. Clear a filter or add another resource card to the data list.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="workflow">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Writing workflow</div>
+            <h2>Repeatable routines.</h2>
+          </div>
+          <p>These routines keep the project moving without pretending that all writing tasks are the same. Use them as checkpoints before advisor meetings, committee drafts, and chapter revisions.</p>
+        </div>
+        <div class="routine-grid">
+          <article class="routine">
+            <h3>Weekly synthesis</h3>
+            <ol>
+              <li>Name one claim that became clearer this week.</li>
+              <li>Identify one source that changed the claim rather than merely supporting it.</li>
+              <li>Write a five-sentence bridge from reading to chapter draft.</li>
+              <li>Archive one paragraph that is interesting but not currently load-bearing.</li>
+            </ol>
+          </article>
+          <article class="routine">
+            <h3>Chapter stress test</h3>
+            <ol>
+              <li>State the chapter's job in one sentence.</li>
+              <li>List the evidence it uniquely contributes.</li>
+              <li>Mark any section doing work that belongs elsewhere.</li>
+              <li>Draft the transition that explains why the next chapter must follow.</li>
+            </ol>
+          </article>
+          <article class="routine">
+            <h3>Committee prep</h3>
+            <ol>
+              <li>Write the strongest objection to the central claim.</li>
+              <li>Prepare a version of the answer for theorists, teachers, and administrators.</li>
+              <li>Separate negotiable structure from non-negotiable contribution.</li>
+              <li>Bring two concrete decisions that the committee can help resolve.</li>
+            </ol>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="prompts">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Prompt and question lab</div>
+            <h2>Generate a useful next move.</h2>
+          </div>
+          <p>Select a mode and the site will produce a reusable prompt or committee question. The goal is not to outsource the thinking, but to stage the next encounter with the material.</p>
+        </div>
+        <div class="prompt-lab">
+          <div class="prompt-controls">
+            <h3>Choose a mode</h3>
+            <p>Each mode is tuned to a different research action: synthesis, revision, advising, teaching, or methodological design.</p>
+            <div class="pill-row" id="promptModes"></div>
+            <div class="hero-actions">
+              <button class="btn" id="copyPrompt" type="button">Copy Prompt</button>
+            </div>
+          </div>
+          <div class="prompt-output">
+            <pre id="promptText"></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Open decisions</div>
+            <h2>Questions worth keeping visible.</h2>
+          </div>
+          <p>The project will improve if these decisions stay explicit. They are not problems to hide; they are the dissertation's design surface.</p>
+        </div>
+        <div class="decision-grid">
+          <article class="decision">
+            <span>Scope</span>
+            <h3>How much AI history belongs here?</h3>
+            <p>The dissertation needs enough genealogy to make the present legible without becoming a broad history of computation.</p>
+          </article>
+          <article class="decision">
+            <span>Evidence</span>
+            <h3>What counts as a case?</h3>
+            <p>Interface analysis, assignment design, student-facing policies, and institutional assessment can each serve as cases if the method is named clearly.</p>
+          </article>
+          <article class="decision">
+            <span>Contribution</span>
+            <h3>Who needs the framework?</h3>
+            <p>The argument should speak to composition theorists, writing teachers, WPA administrators, and researchers studying human-AI mediation.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap foot">
+      <span>Tertiary Algorithmicity</span>
+      <span>Qualifying paper and dissertation resource</span>
+      <span>GitHub Pages ready</span>
+    </div>
+  </footer>
+
+  <script>
+    const chapters = [
+      {
+        label: "Chapter 1",
+        title: "The problem of tertiary algorithmicity",
+        purpose: "Establishes the dissertation's central claim: AI writing systems reorganize composition by producing fluent language while relocating, compressing, or obscuring the labor through which writers develop judgment.",
+        claim: "The issue is not whether AI helps or harms writing in general; the issue is what kind of writing relation it trains.",
+        evidence: "Qualifying paper synthesis, current debates in composition, interface examples",
+        risk: "Over-defining the term before readers see why it matters",
+        moves: [
+          "Define the project vocabulary",
+          "Distinguish tool use from technical milieu",
+          "Name the pedagogical stakes",
+          "Preview friction as the dissertation's design principle"
+        ],
+        questions: [
+          "What must the reader believe by the end of the introduction?",
+          "Which debates can be footnoted instead of rehearsed?",
+          "Where does the qualifying paper become the dissertation's launchpad?"
+        ]
+      },
+      {
+        label: "Chapter 2",
+        title: "A genealogy of writing technologies",
+        purpose: "Places generative AI within longer histories of writing, memory, externalization, and media change without treating AI as either unprecedented miracle or simple continuation.",
+        claim: "AI belongs to writing's technical history, but its predictive automation changes the relation between production, delay, and authorship.",
+        evidence: "Media ecology, grammatology, Stiegler, composition history",
+        risk: "Letting genealogy become background rather than argument",
+        moves: [
+          "Track writing as exteriorized memory",
+          "Compare prior technical shifts with algorithmic mediation",
+          "Show what prediction adds to inscription",
+          "Set up the need for a theory of friction"
+        ],
+        questions: [
+          "Which history is necessary for the argument?",
+          "How does this chapter avoid technological determinism?",
+          "What concept becomes available only after the genealogy?"
+        ]
+      },
+      {
+        label: "Chapter 3",
+        title: "Productive friction and unproductive success",
+        purpose: "Develops the dissertation's core analytic distinction: writing can appear successful while bypassing the conditions that make learning, judgment, and rhetorical agency durable.",
+        claim: "Some friction should be reduced, but some must be designed, protected, or redistributed because it is where judgment forms.",
+        evidence: "Assignment examples, drafting processes, AI output comparisons, assessment scenarios",
+        risk: "Romanticizing struggle or ignoring accessibility",
+        moves: [
+          "Separate harmful barriers from productive difficulty",
+          "Define unproductive success",
+          "Build a friction typology",
+          "Translate theory into design criteria"
+        ],
+        questions: [
+          "How can friction be ethical rather than punitive?",
+          "What does AI make too easy, too fast, or too opaque?",
+          "Which classroom examples prove the distinction?"
+        ]
+      },
+      {
+        label: "Chapter 4",
+        title: "Pedagogical design after automation",
+        purpose: "Turns the theoretical framework into concrete teaching practices for assignments, feedback, policy, and assessment in AI-mediated writing classrooms.",
+        claim: "The strongest AI pedagogy will not simply ban, detect, or celebrate AI; it will design tasks where students must practice judgment in relation to automated language.",
+        evidence: "Assignment sequences, reflective writing, classroom policies, assessment rubrics",
+        risk: "Sounding prescriptive before the dissertation has earned its framework",
+        moves: [
+          "Identify design principles",
+          "Model assignment patterns",
+          "Reframe assessment around process and judgment",
+          "Address equity, access, and disclosure"
+        ],
+        questions: [
+          "What would a teacher do differently after reading this?",
+          "How can assessment value process without becoming surveillance?",
+          "Where should students encounter AI directly?"
+        ]
+      },
+      {
+        label: "Chapter 5",
+        title: "Composition's algorithmic future",
+        purpose: "Draws out the broader institutional and disciplinary implications for writing programs, assessment cultures, and the public meaning of literacy.",
+        claim: "The future of writing instruction depends on preserving conditions for human judgment while acknowledging that writing now happens inside algorithmic environments.",
+        evidence: "Programmatic implications, institutional policies, future research agenda",
+        risk: "Ending with abstraction instead of a usable contribution",
+        moves: [
+          "Return to the central claim",
+          "Name implications for programs and research",
+          "Clarify the dissertation's contribution",
+          "Open future work without diluting the conclusion"
+        ],
+        questions: [
+          "What does the field gain from this term?",
+          "What remains unresolved in productive ways?",
+          "How does the conclusion change the reader's default response to AI writing?"
+        ]
+      }
+    ];
+
+    const resources = [
+      {
+        title: "Tertiary algorithmicity definition sheet",
+        cluster: "Concepts",
+        stage: "both",
+        summary: "A one-page living definition with adjacent terms: tertiary retention, algorithmic mediation, prediction, automation, fluency, friction, and judgment.",
+        use: "Keep this open while drafting so the key term stays stable across chapters."
+      },
+      {
+        title: "Qualifying paper claim inventory",
+        cluster: "Writing",
+        stage: "qualifying",
+        summary: "A table that separates established claims, speculative claims, source-dependent claims, and claims that need examples.",
+        use: "Use before revising the qualifying paper or preparing the oral defense."
+      },
+      {
+        title: "Stiegler and media ecology cluster",
+        cluster: "Theory",
+        stage: "both",
+        summary: "Core sources for technical memory, exteriorization, grammatization, attention, and the conditions under which writing technologies shape thought.",
+        use: "Use when the project needs conceptual grounding rather than another AI policy citation."
+      },
+      {
+        title: "Composition and AI debate tracker",
+        cluster: "Field",
+        stage: "dissertation",
+        summary: "A categorized map of field conversations: detection, authorship, assessment, labor, access, process, feedback, and academic integrity.",
+        use: "Use to position chapters without overloading the introduction."
+      },
+      {
+        title: "Productive friction typology",
+        cluster: "Concepts",
+        stage: "both",
+        summary: "A framework distinguishing generative friction, reflective friction, social friction, procedural friction, and harmful obstruction.",
+        use: "Use in Chapter 3 and again when designing assignments in Chapter 4."
+      },
+      {
+        title: "Unproductive success examples",
+        cluster: "Cases",
+        stage: "dissertation",
+        summary: "Short examples where polished output masks shallow decision-making, weak transfer, thin revision, or unexamined dependence on automated fluency.",
+        use: "Use as evidence in chapters that need concrete stakes."
+      },
+      {
+        title: "Assignment redesign bank",
+        cluster: "Pedagogy",
+        stage: "dissertation",
+        summary: "Reusable assignment patterns that ask students to compare, annotate, interrupt, revise, or justify AI-mediated text.",
+        use: "Use to make the dissertation's pedagogical contribution visible."
+      },
+      {
+        title: "Committee question log",
+        cluster: "Defense",
+        stage: "qualifying",
+        summary: "A running set of likely questions about scope, method, originality, evidence, classroom practicality, and theoretical commitments.",
+        use: "Use before advisor meetings and the qualifying conversation."
+      },
+      {
+        title: "Method memo template",
+        cluster: "Methods",
+        stage: "dissertation",
+        summary: "A template for explaining how interface analysis, pedagogical design, textual comparison, or case study evidence functions in a humanities dissertation.",
+        use: "Use when a chapter risks sounding like commentary instead of method."
+      },
+      {
+        title: "Chapter transition ledger",
+        cluster: "Writing",
+        stage: "dissertation",
+        summary: "A place to store the final paragraph of one chapter and the opening paragraph of the next so the dissertation keeps moving.",
+        use: "Use after every major chapter outline revision."
+      }
+    ];
+
+    const promptModes = [
+      {
+        key: "synthesis",
+        label: "Synthesis",
+        text: "I am working on a dissertation about tertiary algorithmicity, AI writing systems, and productive friction. Help me synthesize the following sources into a single argumentative paragraph. Do not summarize each source separately. Instead, identify the tension between them, name what my project can contribute, and end with one sentence that could become a chapter claim."
+      },
+      {
+        key: "revision",
+        label: "Revision",
+        text: "Review this section as part of a dissertation chapter. Identify where the argument is carrying the most weight, where it becomes descriptive, and where a transition is missing. Then suggest a revised sequence of paragraphs that would make the claim sharper without changing my voice."
+      },
+      {
+        key: "committee",
+        label: "Committee",
+        text: "Generate ten committee questions for a qualifying paper on tertiary algorithmicity and AI-mediated writing. Sort them into theory, method, pedagogy, and scope. For each question, include the hidden concern behind it and a concise strategy for answering."
+      },
+      {
+        key: "pedagogy",
+        label: "Pedagogy",
+        text: "Design a writing assignment that preserves productive friction while allowing students to use AI transparently. Include the learning goal, the AI-use boundary, the reflection requirement, the assessment criteria, and one accessibility concern."
+      },
+      {
+        key: "method",
+        label: "Method",
+        text: "Help me write a method memo for a humanities dissertation chapter about AI writing interfaces. Explain what counts as evidence, how I will analyze it, what the method can show, and what it cannot claim."
+      }
+    ];
+
+    let activeCluster = "All";
+    let activePrompt = promptModes[0].key;
+
+    function renderChapter(index) {
+      const chapter = chapters[index];
+      const view = document.getElementById("chapterView");
+      view.innerHTML = `
+        <div class="eyebrow">${chapter.label}</div>
+        <h3>${chapter.title}</h3>
+        <p class="purpose">${chapter.purpose}</p>
+        <div class="chapter-meta">
+          <div><span>Main claim</span><b>${chapter.claim}</b></div>
+          <div><span>Evidence</span><b>${chapter.evidence}</b></div>
+          <div><span>Watch risk</span><b>${chapter.risk}</b></div>
+        </div>
+        <div class="moves">
+          <div>
+            <h4>Required moves</h4>
+            <ul>${chapter.moves.map(item => `<li>${item}</li>`).join("")}</ul>
+          </div>
+          <div>
+            <h4>Test questions</h4>
+            <ul>${chapter.questions.map(item => `<li>${item}</li>`).join("")}</ul>
+          </div>
+        </div>
+      `;
+    }
+
+    function setupChapters() {
+      document.querySelectorAll(".chapter-tabs button").forEach(button => {
+        button.addEventListener("click", () => {
+          document.querySelectorAll(".chapter-tabs button").forEach(tab => {
+            tab.classList.remove("active");
+            tab.setAttribute("aria-selected", "false");
+          });
+          button.classList.add("active");
+          button.setAttribute("aria-selected", "true");
+          renderChapter(Number(button.dataset.chapter));
+        });
+      });
+      renderChapter(0);
+    }
+
+    function setupClusters() {
+      const clusters = ["All", ...Array.from(new Set(resources.map(resource => resource.cluster)))];
+      const root = document.getElementById("clusterPills");
+      root.innerHTML = clusters.map(cluster => `<button class="pill ${cluster === "All" ? "active" : ""}" type="button" data-cluster="${cluster}">${cluster}</button>`).join("");
+      root.querySelectorAll("button").forEach(button => {
+        button.addEventListener("click", () => {
+          activeCluster = button.dataset.cluster;
+          root.querySelectorAll("button").forEach(pill => pill.classList.remove("active"));
+          button.classList.add("active");
+          renderResources();
+        });
+      });
+    }
+
+    function renderResources() {
+      const query = document.getElementById("search").value.trim().toLowerCase();
+      const stage = document.getElementById("stage").value;
+      const list = document.getElementById("resourceList");
+      const empty = document.getElementById("emptyState");
+      const filtered = resources.filter(resource => {
+        const text = `${resource.title} ${resource.cluster} ${resource.stage} ${resource.summary} ${resource.use}`.toLowerCase();
+        const matchesQuery = !query || text.includes(query);
+        const matchesStage = stage === "all" || resource.stage === stage;
+        const matchesCluster = activeCluster === "All" || resource.cluster === activeCluster;
+        return matchesQuery && matchesStage && matchesCluster;
+      });
+      list.innerHTML = filtered.map(resource => `
+        <article class="resource" data-stage="${resource.stage}">
+          <span class="tag">${resource.cluster} / ${resource.stage}</span>
+          <h3>${resource.title}</h3>
+          <p>${resource.summary}</p>
+          <div class="use"><b>Best use</b>${resource.use}</div>
+        </article>
+      `).join("");
+      empty.style.display = filtered.length ? "none" : "block";
+    }
+
+    function setupResources() {
+      setupClusters();
+      document.getElementById("search").addEventListener("input", renderResources);
+      document.getElementById("stage").addEventListener("change", renderResources);
+      renderResources();
+    }
+
+    function renderPrompt() {
+      const mode = promptModes.find(item => item.key === activePrompt) || promptModes[0];
+      document.getElementById("promptText").textContent = mode.text;
+    }
+
+    function setupPrompts() {
+      const root = document.getElementById("promptModes");
+      root.innerHTML = promptModes.map(mode => `<button class="pill ${mode.key === activePrompt ? "active" : ""}" type="button" data-mode="${mode.key}">${mode.label}</button>`).join("");
+      root.querySelectorAll("button").forEach(button => {
+        button.addEventListener("click", () => {
+          activePrompt = button.dataset.mode;
+          root.querySelectorAll("button").forEach(pill => pill.classList.remove("active"));
+          button.classList.add("active");
+          renderPrompt();
+        });
+      });
+      document.getElementById("copyPrompt").addEventListener("click", async () => {
+        const text = document.getElementById("promptText").textContent;
+        try {
+          await navigator.clipboard.writeText(text);
+          document.getElementById("copyPrompt").textContent = "Copied";
+          setTimeout(() => document.getElementById("copyPrompt").textContent = "Copy Prompt", 1200);
+        } catch (error) {
+          document.getElementById("copyPrompt").textContent = "Select Text";
+          setTimeout(() => document.getElementById("copyPrompt").textContent = "Copy Prompt", 1200);
+        }
+      });
+      renderPrompt();
+    }
+
+    setupChapters();
+    setupResources();
+    setupPrompts();
+  </script>
+</body>
+</html>
