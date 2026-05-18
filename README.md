@@ -1,6 +1,8 @@
 # Qualifying Paper and Dissertation Resource
 
-An interactive one-page GitHub Pages site for organizing the qualifying paper and dissertation project around **Tertiary Algorithmicity**.
+An interactive one-page GitHub Pages site for organizing the qualifying paper and dissertation project around **Tertiary Algorithmicity**, **Pedagogical Friction**, K-12 learning, and media ecology.
+
+The site is aligned to *Beyond Secondary Orality: Tertiary Algorithmicity and the Case for Pedagogical Friction* and frames the dissertation bridge around educator navigation of AI, unproductive success, productive/exclusionary friction, and institutional support for durable learning.
 
 ## Files
 
