@@ -150,6 +150,94 @@
     }
     .btn.secondary { background: transparent; color: var(--ink); }
     .btn:hover { transform: translateY(-1px); box-shadow: var(--shadow); }
+    .task-router {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: 16px;
+      margin-top: 18px;
+    }
+    .router-panel {
+      border: 1px solid var(--ink);
+      background:
+        linear-gradient(180deg, rgba(84, 107, 82, 0.08), transparent 56%),
+        var(--paper);
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+    .router-panel h3 {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--rust);
+      margin-bottom: 12px;
+    }
+    .router-panel p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+    .router-buttons, .router-jumps {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+    .route-chip {
+      border: 1px solid var(--rule-dark);
+      background: transparent;
+      color: var(--ink);
+      padding: 9px 11px;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      min-height: 38px;
+    }
+    .route-chip:hover, .route-chip.active {
+      background: var(--ink);
+      color: var(--paper);
+    }
+    .router-jumps a {
+      border: 1px solid rgba(166, 83, 47, 0.4);
+      color: var(--rust);
+      padding: 8px 10px;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+    .companion-strip {
+      margin-top: 18px;
+      border: 1px solid var(--rule-dark);
+      background: var(--ink);
+      color: var(--paper);
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+    .companion-strip span {
+      color: #cabfae;
+    }
+    .companion-strip a {
+      color: var(--paper);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(251, 250, 246, 0.45);
+      padding-bottom: 2px;
+    }
+    .companion-strip a:hover {
+      color: #ffffff;
+      border-bottom-color: #ffffff;
+    }
     .hero-panel {
       position: relative;
       min-height: 520px;
@@ -578,7 +666,7 @@
     }
 
     @media (max-width: 980px) {
-      .hero-grid, .section-head, .toolbox, .prompt-lab { grid-template-columns: 1fr; }
+      .hero-grid, .section-head, .toolbox, .prompt-lab, .task-router { grid-template-columns: 1fr; }
       .hero { min-height: auto; }
       .hero-panel { min-height: 460px; }
       .quick-grid, .routine-grid, .decision-grid { grid-template-columns: repeat(2, 1fr); }
@@ -645,6 +733,25 @@
           <div class="hero-actions">
             <a class="btn" href="#resources">Browse Resources</a>
             <a class="btn secondary" href="#chapters">Open Chapter Map</a>
+            <a class="btn secondary" href="https://minerclass.github.io/dissertationquestionsbeta/dissertation-sites/">Dissertation Sites</a>
+          </div>
+          <div class="task-router" id="task-router" aria-label="Choose a qualifying paper or dissertation task route">
+            <div class="router-panel">
+              <h3>Choose a task</h3>
+              <p>Use this hub differently depending on whether you are preparing for review, drafting chapters, finding sources, or bridging into methods.</p>
+              <div class="router-buttons" id="routeButtons"></div>
+            </div>
+            <div class="router-panel" aria-live="polite">
+              <h3 id="routeTitle">Committee prep</h3>
+              <p id="routeSummary">Start with the bridge, open the chapter map, then use the prompt lab to rehearse likely committee questions.</p>
+              <div class="router-jumps" id="routeJumps"></div>
+            </div>
+          </div>
+          <div class="companion-strip" aria-label="Related darker companion sites">
+            <span>Companion lenses</span>
+            <a href="https://minerclass.github.io/genAI-ML-the-technologizing-word-site/">Media ecology</a>
+            <a href="https://minerclass.github.io/genAI-ML-the-long-arc-site/">Machine intelligence</a>
+            <a href="https://minerclass.github.io/qualifying-dissertation-litreview/">Literature review</a>
           </div>
         </div>
 
@@ -923,6 +1030,37 @@
   </footer>
 
   <script>
+    const taskRoutes = [
+      {
+        key: "committee",
+        label: "Committee prep",
+        title: "Committee prep",
+        summary: "Start with the bridge, open the chapter map, then use the prompt lab to rehearse likely committee questions.",
+        targets: ["bridge", "chapters", "prompts"]
+      },
+      {
+        key: "drafting",
+        label: "Chapter drafting",
+        title: "Chapter drafting",
+        summary: "Move from chapter architecture to repeatable routines so the site supports actual writing instead of only conceptual review.",
+        targets: ["chapters", "workflow", "resources"]
+      },
+      {
+        key: "sources",
+        label: "Source search",
+        title: "Source search",
+        summary: "Use the resource library first, then return to the bridge to decide how each source functions in the qualifying paper and dissertation.",
+        targets: ["resources", "bridge", "workflow"]
+      },
+      {
+        key: "methods",
+        label: "Methods bridge",
+        title: "Methods bridge",
+        summary: "Focus on the shift from conceptual analysis toward empirical dissertation design and future research questions.",
+        targets: ["bridge", "chapters", "prompts"]
+      }
+    ];
+
     const chapters = [
       {
         label: "Chapter 1",
@@ -1125,6 +1263,33 @@
     let activeCluster = "All";
     let activePrompt = promptModes[0].key;
 
+    function setupTaskRoutes() {
+      const buttons = document.getElementById("routeButtons");
+      const title = document.getElementById("routeTitle");
+      const summary = document.getElementById("routeSummary");
+      const jumps = document.getElementById("routeJumps");
+      const labelFor = (id) => {
+        const nav = document.querySelector(`.links a[href="#${id}"]`);
+        return nav ? nav.textContent.trim() : id;
+      };
+      const render = (key = "committee") => {
+        const route = taskRoutes.find(item => item.key === key) || taskRoutes[0];
+        title.textContent = route.title;
+        summary.textContent = route.summary;
+        buttons.querySelectorAll("[data-route]").forEach(button => {
+          button.classList.toggle("active", button.dataset.route === route.key);
+        });
+        jumps.innerHTML = route.targets.map(id => `<a href="#${id}">${labelFor(id)}</a>`).join("");
+      };
+      buttons.innerHTML = taskRoutes.map(route => `<button class="route-chip ${route.key === "committee" ? "active" : ""}" type="button" data-route="${route.key}">${route.label}</button>`).join("");
+      buttons.addEventListener("click", event => {
+        const button = event.target.closest("[data-route]");
+        if (!button) return;
+        render(button.dataset.route);
+      });
+      render();
+    }
+
     function renderChapter(index) {
       const chapter = chapters[index];
       const view = document.getElementById("chapterView");
@@ -1240,6 +1405,7 @@
     }
 
     setupChapters();
+    setupTaskRoutes();
     setupResources();
     setupPrompts();
   </script>
